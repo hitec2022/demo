@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    builder: builder
+spec:
+  serviceAccountName: jenkins-admin
+  containers:
+    - name: git
+      image: alpine/git
+      command:
+      - sleep
+      args:
+      - 99d
+    - name: maven
+      image: maven:3.9-amazoncorretto-17
+      command:
+      - sleep
+      args:
+      - 99d
+      volumeMounts:
+        - name: mavenvolume
+          mountPath: /root/.m2
+    - name: docker
+      image: docker:latest
+      securityContext:
+        privileged: true
+      command:
+      - dockerd-entrypoint.sh
+      args:
+      - --insecure-registry=kind-registry:5000
+      volumeMounts:
+        - name: mavenvolume
+          mountPath: /root/.m2
+    - name: kubectl 
+      image: lachlanevenson/k8s-kubectl
+      command:
+      - sleep
+      args:
+      - 99d
+    - name: busybox
+      image: busybox
+      command:
+      - sleep
+      args:
+      - 99d
+  volumes:
+    - name: mavenvolume
+      persistentVolumeClaim:
+        claimName: maven-pv-claim
+
