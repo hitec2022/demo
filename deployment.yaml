@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: board
+  labels:
+    app: board
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: board
+  template:
+    metadata:
+      labels:
+        app: board
+    spec:
+      containers:
+      - name: board
+        image: localhost:5001/board:0.0.1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+

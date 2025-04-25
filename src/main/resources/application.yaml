@@ -1,0 +1,32 @@
+spring:
+  session:
+    store-type: redis
+    redis:
+      namespace: spring:session
+  data:
+    redis:
+      cluster:
+        max-redirects: 3
+        nodes: redis-0.redis-service-headless:6379, redis-1.redis-service-headless:6379, redis-2.redis-service-headless:6379, redis-3.redis-service-headless:6379, redis-4.redis-service-headless:6379, redis-5.redis-service-headless:6379
+  datasource:
+    master:
+      driverClassName: org.postgresql.Driver
+      url: jdbc:postgresql://db-0.db-service-headless:5432/postgres
+      username: postgres
+      password: fighting
+    slaves:
+      slave1:
+        driverClassName: org.postgresql.Driver
+        url: jdbc:postgresql://db-1.db-service-headless:5432/postgres
+        username: postgres
+        password: fighting
+      slave2:  
+        driverClassName: org.postgresql.Driver
+        url: jdbc:postgresql://db-2.db-service-headless:5432/postgres
+        username: postgres
+        password: fighting
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database: postgresql
