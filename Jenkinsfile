@@ -31,7 +31,7 @@ pipeline {
             steps {
                 container('kubectl') {
                     //sh 'kubectl apply -f ./k8s/gw-deployment.yaml'
-                    sh 'kubectl rollout restart deployment board'
+                    sh 'kubectl rollout restart deployment board -n demo'
                 }
             }
         }
